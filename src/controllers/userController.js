@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import { connection } from '../database.js';
+import connection from '../database.js';
 
-export async function createUser(req, res) {
+async function createUser(req, res) {
   const user = req.body;
 
   try {
@@ -25,7 +25,7 @@ export async function createUser(req, res) {
   }
 }
 
-export async function getUser(req, res) {
+async function getUser(req, res) {
   const { user } = res.locals;
 
   try {
@@ -34,4 +34,9 @@ export async function getUser(req, res) {
     console.log(error);
     return res.sendStatus(500);
   }
+}
+
+export {
+  createUser,
+  getUser
 }
