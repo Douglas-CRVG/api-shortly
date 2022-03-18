@@ -6,9 +6,9 @@ CREATE TABLE users (
 );
 
 CREATE TABLE sessions (
-   id serial NOT NULL PRIMARY KEY,
-   token TEXT NOT NULL UNIQUE,
-   "userId" INTEGER NOT NULL REFERENCES users(id)
+	id serial NOT NULL PRIMARY KEY,
+	token TEXT NOT NULL UNIQUE,
+	"userId" INTEGER NOT NULL REFERENCES users(id)
 );
 
 CREATE TABLE "shortenedUrls" (
