@@ -78,7 +78,7 @@ async function listRanking(req, res) {
     `);
     console.log(result);
 
-    res.status(200).send(result?.rows)
+    res.status(200).send(result.rows)
   } catch (error) {
     console.log(error);
     res.sendStatus(500)
