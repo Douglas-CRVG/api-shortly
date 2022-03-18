@@ -4,7 +4,6 @@ async function createUrl(req, res){
     const {url} = req.body;
     try {
         const shortURL = parseInt(Date.now()%(10**8)).toString(16);
-        console.log({url, shortURL, id: res.locals.user.id});
 
         await connection.query(`
             INSERT
@@ -44,7 +43,36 @@ async function listShortUrl(req, res) {
     }
 }
 
+async function deleteShortUrl(req, res){
+    const {user} = res.locals
+    const {shortId} = req.params
+    try {
+        const shortUrl = await connection.query(`
+            SELECT
+                *
+                FROM "shortenedUrls"
+                WHERE id = $1
+        `, [shortId])
+
+        if(shortUrl.rows[0]?.userId !== user.id){
+            return res.sendStatus(401)
+        }
+
+        await connection.query(`
+            DELETE
+                FROM "shortenedUrls"
+                WHERE id = $1
+        `, [shortId])
+
+        res.sendStatus(204)
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500)
+    }
+}
+
 export {
     createUrl,
-    listShortUrl
+    listShortUrl,
+    deleteShortUrl
 }
